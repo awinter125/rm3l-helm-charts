@@ -28,7 +28,13 @@ jobs:
           HELM_EXPERIMENTAL_OCI: 1
 
       - name: Publish to GitHub Releases
+        id  : create_release
         uses: actions/create-release@v1
+        env :
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: charts/adguard-home/*.tgz
-          token: ${{ secrets.GITHUB_TOKEN }}
+          files       : charts/adguard-home/*.tgz
+          tag_name    : v${{ github.sha }}
+          release_name: Release v${{ github.sha }}
+          draft       : false
+          prerelease  : false
