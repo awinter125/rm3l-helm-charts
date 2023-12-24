@@ -28,9 +28,7 @@ jobs:
           HELM_EXPERIMENTAL_OCI: 1
 
       - name: Publish to GitHub Releases
-        uses: actions/upload-release-asset@v1
+        uses: actions/create-release@v1
         with:
-          asset-path: charts/adguard-home/*.tgz
-          name      : adguard-home-chart-${{ github.sha }}
-        env :
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          files: charts/adguard-home/*.tgz
+          token: ${{ secrets.GITHUB_TOKEN }}
