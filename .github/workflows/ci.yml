@@ -30,5 +30,6 @@ jobs:
         with:
           charts_dir         : charts/
           packages_with_index: true
+          mark_as_latest     : true
         env :
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
