@@ -19,13 +19,6 @@ jobs:
         with:
           version: 'v3.0.2'
 
-      - name: Install Helm Chart Releaser
-        run : |
-          curl -fsSL -o /tmp/get-helm-releaser.sh https://raw.githubusercontent.com/helm/chart-releaser/master/scripts/get-helm-releaser
-          chmod +x /tmp/get-helm-releaser.sh
-          /tmp/get-helm-releaser.sh
-          mv helm-releaser /usr/local/bin/helm-releaser
-
       - name: Package Helm Chart
         run : |
           cd charts/adguard-home
