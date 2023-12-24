@@ -1,7 +1,7 @@
 name: Helm Chart Build and Publish
 
-on:
-  push:
+on  :
+  push             :
     branches:
       - main
   workflow_dispatch:
@@ -10,7 +10,7 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
 
-    steps:
+    steps  :
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -20,24 +20,25 @@ jobs:
           version: 'v3.0.2'
 
       - name: Extract Chart Version
-        id: chart-version
-        run: echo "::set-output name=version::$(yq eval '.version' charts/adguard-home/Chart.yaml)"
+        id  : chart-version
+        run : echo "::set-output name=version::$(yq eval '.version' charts/adguard-home/Chart.yaml)"
 
       - name: Build and Publish Helm Chart
-        run: |
+        run : |
           cd charts/adguard-home
           helm package .
-          mv adguard-home-*.tgz adguard-home-${{ steps.chart-version.outputs.version }}.tgz
+          CHART_VERSION=$(yq eval '.version' Chart.yaml)
           helm repo index --url https://raw.githubusercontent.com/awinter125/rm3l-helm-charts/main/ .
+          mv adguard-home-${CHART_VERSION}.tgz adguard-home.tgz
 
       - name: Publish to GitHub Releases
-        id: create_release
+        id  : create_release
         uses: actions/create-release@v1
-        env:
+        env :
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: charts/adguard-home/*.tgz
-          tag_name: v${{ steps.chart-version.outputs.version }}
+          files       : charts/adguard-home/*.tgz
+          tag_name    : v${{ steps.chart-version.outputs.version }}
           release_name: Release v${{ steps.chart-version.outputs.version }}
-          draft: false
-          prerelease: false
+          draft       : false
+          prerelease  : false
