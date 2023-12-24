@@ -2,171 +2,178 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+replicaCount      : 1
 
-image:
+image             :
   repository: adguard/adguardhome
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag       : ""
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+imagePullSecrets  : [ ]
+nameOverride      : ""
+fullnameOverride  : ""
 
-serviceAccount:
+serviceAccount    :
   # Specifies whether a service account should be created
-  create: true
+  create     : true
   # Annotations to add to the service account
-  annotations: {}
+  annotations: { }
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name       : ""
 
-podAnnotations: {}
+podAnnotations    : { }
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext: { }
+# fsGroup: 2000
 
-securityContext: {}
+securityContext   : { }
   # capabilities:
   #   drop:
   #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
 
 # service:
 #   type: ClusterIP
 #   port: 80
 
-services:
-  adminPanel:
-    type: ClusterIP
-    port: 3000
+services          :
+  adminPanel :
+    type          : ClusterIP
+    port          : 3000
     # -- Internal cluster service IP for the Admin Panel (when applicable)
-    clusterIP: ""
+    clusterIP     : ""
     # -- Load balancer IP for the Admin Panel (when applicable)
     loadBalancerIP:
     # -- (int) Node port for the Admin Panel (when applicable)
-    nodePort:
-  http:
-    type: ClusterIP
+    nodePort      :
+    annotations   : { }
+  http       :
+    type          : ClusterIP
     # -- Internal cluster service IP for HTTP (when applicable)
-    clusterIP: ""
+    clusterIP     : ""
     # -- Load balancer IP for HTTP (when applicable)
     loadBalancerIP:
     # -- (int) Node port for HTTP (when applicable)
-    port: 80
-    nodePort:
-  https:
-    enabled: true
-    type: ClusterIP
+    port          : 80
+    nodePort      :
+    annotations   : { }
+  https      :
+    enabled       : true
+    type          : ClusterIP
     # -- Internal cluster service IP for HTTPS (when applicable)
-    clusterIP: ""
+    clusterIP     : ""
     # -- Load balancer IP for HTTPS (when applicable)
     loadBalancerIP:
     # -- (int) Node port for HTTPS (when applicable)
-    nodePort:
-    port: 443
-  dns:
-    enabled: true
-    type: NodePort
+    nodePort      :
+    port          : 443
+    annotations   : { }
+  dns        :
+    enabled       : true
+    type          : NodePort
     # -- Internal cluster service IP for DNS (when applicable)
-    clusterIP: ""
+    clusterIP     : ""
     # -- Load balancer IP for DNS (when applicable)
     loadBalancerIP:
-    tcp:
-      port: 53
+    tcp           :
+      port    : 53
       nodePort:
-    udp:
-      port: 53
+    udp           :
+      port    : 53
       nodePort:
-  dnsOverTls:
-    enabled: true
-    type: NodePort
+    annotations   : { }
+  dnsOverTls :
+    enabled       : true
+    type          : NodePort
     # -- Internal cluster service IP for DNS over TLS (when applicable)
-    clusterIP: ""
+    clusterIP     : ""
     # -- Load balancer IP for DNS over TLS (when applicable)
     loadBalancerIP:
     # -- (int) Node port for DNS over TLS (when applicable)
-    port: 853
-    nodePort:
+    port          : 853
+    nodePort      :
+    annotations   : { }
   dnsOverQuic:
-    enabled: true
-    type: NodePort
-    port1:
-      port: 784
+    enabled       : true
+    type          : NodePort
+    port1         :
+      port    : 784
       nodePort:
-    port2:
-      port: 8853
+    port2         :
+      port    : 8853
       nodePort:
     # -- Internal cluster service IP for DNS Over QUIC (when applicable)
-    clusterIP: ""
+    clusterIP     : ""
     # -- Load balancer IP for DNS Over QUIC (when applicable)
     loadBalancerIP:
-  dnscrypt:
-    enabled: true
-    type: NodePort
+    annotations   : { }
+  dnscrypt   :
+    enabled       : true
+    type          : NodePort
     # -- Internal cluster service IP for DNSCrypt (when applicable)
-    clusterIP: ""
+    clusterIP     : ""
     # -- Load balancer IP for DNSCrypt (when applicable)
     loadBalancerIP:
-    tcp:
-      port: 5443
+    tcp           :
+      port    : 5443
       nodePort:
-    udp:
-      port: 5443
+    udp           :
+      port    : 5443
       nodePort:
+    annotations   : { }
 
-ingresses:
+ingresses         :
   adminPanel:
-    enabled: false
-    className: ""
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: admin.adguard-home-example.local
+    enabled    : false
+    className  : ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts      :
+      - host : admin.adguard-home-example.local
         paths:
-          - path: /
+          - path    : /
             pathType: ImplementationSpecific
-    tls: []
+    tls        : [ ]
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.
-  http:
-    enabled: false
-    className: ""
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: adguard-home-example.local
+  http      :
+    enabled    : false
+    className  : ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts      :
+      - host : adguard-home-example.local
         paths:
-          - path: /
+          - path    : /
             pathType: ImplementationSpecific
-    tls: []
+    tls        : [ ]
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.
-  https:
-    enabled: false
-    className: ""
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: adguard-home-example.local
+  https     :
+    enabled    : false
+    className  : ""
+    annotations: { }
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+    hosts      :
+      - host : adguard-home-example.local
         paths:
-          - path: /
+          - path    : /
             pathType: ImplementationSpecific
-    tls: []
+    tls        : [ ]
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.
 
-resources: {}
+resources         : { }
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -174,164 +181,164 @@ resources: {}
   # limits:
   #   cpu: 100m
   #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
+autoscaling       :
+  enabled                       : false
+  minReplicas                   : 1
+  maxReplicas                   : 100
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
+nodeSelector      : { }
 
-tolerations: []
+tolerations       : [ ]
 
-affinity: {}
+affinity          : { }
 
 # -- Strategy used to replace old Pods by new ones
-strategy: {}
+strategy          : { }
   # type: RollingUpdate
-  # rollingUpdate:
-  #   maxSurge: 1
-  #   maxUnavailable: 33%
+# rollingUpdate:
+#   maxSurge: 1
+#   maxUnavailable: 33%
 
-persistence:
+persistence       :
   volumeClaimSpec:
     accessModes:
       - ReadWriteOnce
-    resources:
+    resources  :
       requests:
         storage: 1Gi
 
-backup:
+backup            :
   # -- Note that this depends on the Access Mode set for the persistent volume claim (PVC) specified.
   # -- As a consequence, backups will not be possible if the PVC access mode is set to ReadWriteOncePod (Kubernetes 1.22+),
   # -- since the volume will be accessible only to the sole Adguard Home pod.
-  enabled: false
+  enabled                : false
   # -- How frequently the Backup job should run. Cron Syntax, as supported by Kubernetes CronJobs
-  schedule: "@daily"
-  concurrencyPolicy: Forbid
-  restartPolicy: OnFailure
+  schedule               : "@daily"
+  concurrencyPolicy      : Forbid
+  restartPolicy          : OnFailure
   ttlSecondsAfterFinished: 300
-  activeDeadlineSeconds: 1800
-  backoffLimit: 1
-  parallelism: 1
-  imagePullPolicy: IfNotPresent
-  resources: {}
-  aws:
+  activeDeadlineSeconds  : 1800
+  backoffLimit           : 1
+  parallelism            : 1
+  imagePullPolicy        : IfNotPresent
+  resources              : { }
+  aws                    :
     # -- For now, only AWS is supported. Setting this to `false` (while `backup.enabled` is `true`) will cause a deployment error.
-    enabled: true
+    enabled    : true
     # -- AWS Access Key. Must have the permissions to write to the target bucket.
     accessKeyId: "my-aws-access-key-id"
     # -- AWS Secret Key. Must have the permissions to write to the target bucket.
-    secretKey: "my-aws-secret-key"
+    secretKey  : "my-aws-secret-key"
     # -- Target destination bucket (absolute) in AWS S3, where the backup resources should be written
-    s3:
+    s3         :
       destination: "s3://path/to/my/adguard-home-backup-bucket"
 
-bootstrapConfig:
+bootstrapConfig   :
   # -- AdGuard Home config. See [this page](https://github.com/AdguardTeam/AdGuardHome/wiki/Configuration#configuration-file)
-  bind_host: 0.0.0.0
-  bind_port: 80
-  beta_bind_port: 0
-  users: []
+  bind_host        : 0.0.0.0
+  bind_port        : 80
+  beta_bind_port   : 0
+  users            : [ ]
   # - name: admin
   #   # -- password encoded via httpasswd : r3allyPl34s3Ch4ng3M3
   #   password: $2y$05$0mz52NwW/bheVxROVUIVQ.Gf1HOyBP/SPK5DRmN/B0y.GNBN80xXO
-  auth_attempts: 5
-  block_auth_min: 15
-  http_proxy: ""
-  language: en
-  debug_pprof: false
-  web_session_ttl: 720
-  dns:
-    bind_hosts:
-    - 0.0.0.0
-    port: 53
-    statistics_interval: 90
-    querylog_enabled: true
-    querylog_file_enabled: true
-    querylog_interval: 168h
-    querylog_size_memory: 1000
-    anonymize_client_ip: false
-    protection_enabled: true
-    blocking_mode: default
-    blocking_ipv4: ""
-    blocking_ipv6: ""
-    blocked_response_ttl: 10
-    parental_block_host: family-block.dns.adguard.com
-    safebrowsing_block_host: standard-block.dns.adguard.com
-    ratelimit: 20
-    ratelimit_whitelist: []
-    refuse_any: true
-    upstream_dns:
-    - https://dns.cloudflare.com/dns-query
-    - tls://1dot1dot1dot1.cloudflare-dns.com
-    - https://dns10.quad9.net/dns-query
-    upstream_dns_file: ""
-    bootstrap_dns:
-    - 1.1.1.1
-    - 1.0.0.1
-    - 9.9.9.10
-    - 149.112.112.10
-    - 2620:fe::10
-    - 2620:fe::fe:10
-    all_servers: true
-    fastest_addr: false
-    fastest_timeout: 1s
-    allowed_clients: []
-    disallowed_clients: []
-    blocked_hosts:
-    - version.bind
-    - id.server
-    - hostname.bind
-    trusted_proxies:
-    - 127.0.0.0/8
-    - ::1/128
-    cache_size: 4194304
-    cache_ttl_min: 0
-    cache_ttl_max: 0
-    cache_optimistic: true
-    bogus_nxdomain: []
-    aaaa_disabled: false
-    enable_dnssec: false
-    edns_client_subnet: false
-    max_goroutines: 300
-    ipset: []
-    filtering_enabled: true
-    filters_update_interval: 24
-    parental_enabled: false
-    safesearch_enabled: false
-    safebrowsing_enabled: false
-    safebrowsing_cache_size: 1048576
-    safesearch_cache_size: 1048576
-    parental_cache_size: 1048576
-    cache_time: 30
-    rewrites: []
-    blocked_services: []
-    upstream_timeout: 10s
-    local_domain_name: lan
-    resolve_clients: true
+  auth_attempts    : 5
+  block_auth_min   : 15
+  http_proxy       : ""
+  language         : en
+  debug_pprof      : false
+  web_session_ttl  : 720
+  dns              :
+    bind_hosts               :
+      - 0.0.0.0
+    port                     : 53
+    statistics_interval      : 90
+    querylog_enabled         : true
+    querylog_file_enabled    : true
+    querylog_interval        : 168h
+    querylog_size_memory     : 1000
+    anonymize_client_ip      : false
+    protection_enabled       : true
+    blocking_mode            : default
+    blocking_ipv4            : ""
+    blocking_ipv6            : ""
+    blocked_response_ttl     : 10
+    parental_block_host      : family-block.dns.adguard.com
+    safebrowsing_block_host  : standard-block.dns.adguard.com
+    ratelimit                : 20
+    ratelimit_whitelist      : [ ]
+    refuse_any               : true
+    upstream_dns             :
+      - https://dns.cloudflare.com/dns-query
+      - tls://1dot1dot1dot1.cloudflare-dns.com
+      - https://dns10.quad9.net/dns-query
+    upstream_dns_file        : ""
+    bootstrap_dns            :
+      - 1.1.1.1
+      - 1.0.0.1
+      - 9.9.9.10
+      - 149.112.112.10
+      - 2620:fe::10
+      - 2620:fe::fe:10
+    all_servers              : true
+    fastest_addr             : false
+    fastest_timeout          : 1s
+    allowed_clients          : [ ]
+    disallowed_clients       : [ ]
+    blocked_hosts            :
+      - version.bind
+      - id.server
+      - hostname.bind
+    trusted_proxies          :
+      - 127.0.0.0/8
+      - ::1/128
+    cache_size               : 4194304
+    cache_ttl_min            : 0
+    cache_ttl_max            : 0
+    cache_optimistic         : true
+    bogus_nxdomain           : [ ]
+    aaaa_disabled            : false
+    enable_dnssec            : false
+    edns_client_subnet       : false
+    max_goroutines           : 300
+    ipset                    : [ ]
+    filtering_enabled        : true
+    filters_update_interval  : 24
+    parental_enabled         : false
+    safesearch_enabled       : false
+    safebrowsing_enabled     : false
+    safebrowsing_cache_size  : 1048576
+    safesearch_cache_size    : 1048576
+    parental_cache_size      : 1048576
+    cache_time               : 30
+    rewrites                 : [ ]
+    blocked_services         : [ ]
+    upstream_timeout         : 10s
+    local_domain_name        : lan
+    resolve_clients          : true
     use_private_ptr_resolvers: true
-    local_ptr_upstreams: []
-  tls:
-    enabled: true
-    server_name: my.dns.example.com
-    force_https: false
-    port_https: 443
-    port_dns_over_tls: 853
-    port_dns_over_quic: 784
-    port_dnscrypt: 0
-    dnscrypt_config_file: ""
+    local_ptr_upstreams      : [ ]
+  tls              :
+    enabled              : true
+    server_name          : my.dns.example.com
+    force_https          : false
+    port_https           : 443
+    port_dns_over_tls    : 853
+    port_dns_over_quic   : 784
+    port_dnscrypt        : 0
+    dnscrypt_config_file : ""
     # -- Whether to expose DNS over HTTPS over HTTP instead.
     # -- Useful if Adguard Home is behind a reverse proxy already terminating TLS connections.
     allow_unencrypted_doh: true
-    strict_sni_check: false
+    strict_sni_check     : false
     # -- sample self-signed certificate for my.dns.example.com. Valid for 3650 days.
-    certificate_chain: |-
+    certificate_chain    : |-
       -----BEGIN CERTIFICATE-----
       MIIFVDCCAzygAwIBAgIUM+ltXj0iog81U2Dqsavv6DCPE3YwDQYJKoZIhvcNAQEL
       BQAwHTEbMBkGA1UEAwwSbXkuZG5zLmV4YW1wbGUuY29tMB4XDTIyMDEwNjIzMjkx
@@ -364,7 +371,7 @@ bootstrapConfig:
       aE+GBbiAOPS9w/eFLaASK/YLA3I95swb
       -----END CERTIFICATE-----
     # -- sample TLS Private key for my.dns.example.com
-    private_key: |-
+    private_key          : |-
       -----BEGIN PRIVATE KEY-----
       MIIJQgIBADANBgkqhkiG9w0BAQEFAASCCSwwggkoAgEAAoICAQDA4pVpKKM/Ucto
       ySqo4P9UipyFG3dQOWMIz+sYCUv/VtgkoDG90/Eh98Xc8+LAsWzikwR4ucZlS1aN
@@ -417,61 +424,61 @@ bootstrapConfig:
       OjkMs/KFVMGghDv6JroaaQ1Tf0feVUtUDYVbxz4ejBC9knqTwhsDnQEa/ETqK0S3
       UdMaBW43oZ+E5o/yfWMcnVZCdlqd/A==
       -----END PRIVATE KEY-----
-    certificate_path: ""
-    private_key_path: ""
-  filters:
-  - enabled: true
-    url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
-    name: AdGuard DNS filter
-    id: 1
-  - enabled: false
-    url: https://adaway.org/hosts.txt
-    name: AdAway Default Blocklist
-    id: 2
-  - enabled: false
-    url: https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
-    name: WindowsSpyBlocker - Hosts spy rules
-    id: 1641249001
-  - enabled: false
-    url: https://abp.oisd.nl/basic/
-    name: OISD Blocklist Basic
-    id: 1641249002
-  - enabled: false
-    url: https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-AGH.txt
-    name: Perflyst and Dandelion Sprout's Smart-TV Blocklist
-    id: 1641249003
-  - enabled: false
-    url: https://raw.githubusercontent.com/DandelionSprout/adfilt/master/GameConsoleAdblockList.txt
-    name: Game Console Adblock List
-    id: 1641249004
-  whitelist_filters: []
-  user_rules: []
-  dhcp:
-    enabled: false
+    certificate_path     : ""
+    private_key_path     : ""
+  filters          :
+    - enabled: true
+      url    : https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+      name   : AdGuard DNS filter
+      id     : 1
+    - enabled: false
+      url    : https://adaway.org/hosts.txt
+      name   : AdAway Default Blocklist
+      id     : 2
+    - enabled: false
+      url    : https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
+      name   : WindowsSpyBlocker - Hosts spy rules
+      id     : 1641249001
+    - enabled: false
+      url    : https://abp.oisd.nl/basic/
+      name   : OISD Blocklist Basic
+      id     : 1641249002
+    - enabled: false
+      url    : https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-AGH.txt
+      name   : Perflyst and Dandelion Sprout's Smart-TV Blocklist
+      id     : 1641249003
+    - enabled: false
+      url    : https://raw.githubusercontent.com/DandelionSprout/adfilt/master/GameConsoleAdblockList.txt
+      name   : Game Console Adblock List
+      id     : 1641249004
+  whitelist_filters: [ ]
+  user_rules       : [ ]
+  dhcp             :
+    enabled       : false
     interface_name: ""
-    dhcpv4:
-      gateway_ip: ""
-      subnet_mask: ""
-      range_start: ""
-      range_end: ""
-      lease_duration: 86400
+    dhcpv4        :
+      gateway_ip       : ""
+      subnet_mask      : ""
+      range_start      : ""
+      range_end        : ""
+      lease_duration   : 86400
       icmp_timeout_msec: 1000
-      options: []
-    dhcpv6:
-      range_start: ""
+      options          : [ ]
+    dhcpv6        :
+      range_start   : ""
       lease_duration: 86400
-      ra_slaac_only: false
+      ra_slaac_only : false
       ra_allow_slaac: false
-  clients: []
-  log_compress: false
-  log_localtime: false
-  log_max_backups: 0
-  log_max_size: 100
-  log_max_age: 3
-  log_file: ""
-  verbose: false
-  os:
-    group: ""
-    user: ""
+  clients          : [ ]
+  log_compress     : false
+  log_localtime    : false
+  log_max_backups  : 0
+  log_max_size     : 100
+  log_max_age      : 3
+  log_file         : ""
+  verbose          : false
+  os               :
+    group        : ""
+    user         : ""
     rlimit_nofile: 0
-  schema_version: 12
+  schema_version   : 12

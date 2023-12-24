@@ -1,189 +1,217 @@
 apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "adguard-home.fullname" . }}-admin-panel
-  labels:
+kind      : Service
+metadata  :
+  name       : {{ include "adguard-home.fullname" . }}-admin-panel
+  labels     :
     {{- include "adguard-home.labels" . | nindent 4 }}
-spec:
-  selector:
+  {{- with .Values.services.adminPanel.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end}}
+spec      :
+  selector      :
     {{- include "adguard-home.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.services.adminPanel.type }}
+  type          : {{ .Values.services.adminPanel.type }}
   {{- with .Values.services.adminPanel.clusterIP }}
-  clusterIP: {{ . }}
+  clusterIP     : {{ . }}
   {{- end }}
   {{- with .Values.services.adminPanel.loadBalancerIP }}
   loadBalancerIP: {{ . }}
   {{- end }}
-  ports:
-  - port: {{ .Values.services.adminPanel.port }}
+  ports         :
+    - port      : {{ .Values.services.adminPanel.port }}
     {{- if and (or (eq .Values.services.adminPanel.type "NodePort") (eq .Values.services.adminPanel.type "LoadBalancer")) .Values.services.adminPanel.nodePort }}
-    nodePort: {{ .Values.services.adminPanel.nodePort }}
+      nodePort  : {{ .Values.services.adminPanel.nodePort }}
     {{- end }}
-    targetPort: admin
-    protocol: TCP
+      targetPort: admin
+      protocol  : TCP
 ---
 apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "adguard-home.fullname" . }}-http
-spec:
-  selector:
+kind      : Service
+metadata  :
+  name       : {{ include "adguard-home.fullname" . }}-http
+  {{- with .Values.services.http.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end}}
+spec      :
+  selector      :
     {{- include "adguard-home.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.services.http.type }}
+  type          : {{ .Values.services.http.type }}
   {{- with .Values.services.http.clusterIP }}
-  clusterIP: {{ . }}
+  clusterIP     : {{ . }}
   {{- end }}
   {{- with .Values.services.http.loadBalancerIP }}
   loadBalancerIP: {{ . }}
   {{- end }}
-  ports:
-  - port: {{ .Values.services.http.port }}
+  ports         :
+    - port      : {{ .Values.services.http.port }}
     {{- if and (or (eq .Values.services.http.type "NodePort") (eq .Values.services.http.type "LoadBalancer")) .Values.services.http.nodePort }}
-    nodePort: {{ .Values.services.http.nodePort }}
+      nodePort  : {{ .Values.services.http.nodePort }}
     {{- end }}
-    targetPort: http
-    protocol: TCP
+      targetPort: http
+      protocol  : TCP
 ---
 {{ if .Values.services.https.enabled -}}
 apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "adguard-home.fullname" . }}-https
-spec:
-  selector:
+kind      : Service
+metadata  :
+  name       : {{ include "adguard-home.fullname" . }}-https
+  {{- with .Values.services.https.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end}}
+spec      :
+  selector      :
     {{- include "adguard-home.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.services.https.type }}
+  type          : {{ .Values.services.https.type }}
   {{- with .Values.services.https.clusterIP }}
-  clusterIP: {{ . }}
+  clusterIP     : {{ . }}
   {{- end }}
   {{- with .Values.services.https.loadBalancerIP }}
   loadBalancerIP: {{ . }}
   {{- end }}
-  ports:
-  - port: {{ .Values.services.https.port }}
+  ports         :
+    - port      : {{ .Values.services.https.port }}
     {{- if and (or (eq .Values.services.https.type "NodePort") (eq .Values.services.https.type "LoadBalancer")) .Values.services.https.nodePort }}
-    nodePort: {{ .Values.services.https.nodePort }}
+      nodePort  : {{ .Values.services.https.nodePort }}
     {{- end }}
-    targetPort: https
-    protocol: TCP
+      targetPort: https
+      protocol  : TCP
 {{- end }}
 ---
 {{ if .Values.services.dns.enabled -}}
 apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "adguard-home.fullname" . }}-dns
-spec:
-  selector:
+kind      : Service
+metadata  :
+  name       : {{ include "adguard-home.fullname" . }}-dns
+  {{- with .Values.services.dns.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end}}
+spec      :
+  selector      :
     {{- include "adguard-home.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.services.dns.type }}
+  type          : {{ .Values.services.dns.type }}
   {{- with .Values.services.dns.clusterIP }}
-  clusterIP: {{ . }}
+  clusterIP     : {{ . }}
   {{- end }}
   {{- with .Values.services.dns.loadBalancerIP }}
   loadBalancerIP: {{ . }}
   {{- end }}
-  ports:
-  - port: {{ .Values.services.dns.tcp.port }}
+  ports         :
+    - port      : {{ .Values.services.dns.tcp.port }}
     {{- if and (or (eq .Values.services.dns.type "NodePort") (eq .Values.services.dns.type "LoadBalancer")) .Values.services.dns.tcp.nodePort }}
-    nodePort: {{ .Values.services.dns.tcp.nodePort }}
+      nodePort  : {{ .Values.services.dns.tcp.nodePort }}
     {{- end }}
-    name: dns-tcp
-    targetPort: dns-tcp
-    protocol: TCP
-  - port: {{ .Values.services.dns.udp.port }}
+      name      : dns-tcp
+      targetPort: dns-tcp
+      protocol  : TCP
+    - port      : {{ .Values.services.dns.udp.port }}
     {{- if and (or (eq .Values.services.dns.type "NodePort") (eq .Values.services.dns.type "LoadBalancer")) .Values.services.dns.udp.nodePort }}
-    nodePort: {{ .Values.services.dns.udp.nodePort }}
+      nodePort  : {{ .Values.services.dns.udp.nodePort }}
     {{- end }}
-    name: dns-udp
-    targetPort: dns-udp
-    protocol: UDP
+      name      : dns-udp
+      targetPort: dns-udp
+      protocol  : UDP
 {{- end }}
 ---
 {{ if .Values.services.dnsOverTls.enabled -}}
 apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "adguard-home.fullname" . }}-dot
-spec:
-  selector:
+kind      : Service
+metadata  :
+  name       : {{ include "adguard-home.fullname" . }}-dot
+  {{- with .Values.services.dnsOverTls.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end}}
+spec      :
+  selector      :
     {{- include "adguard-home.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.services.dnsOverTls.type }}
+  type          : {{ .Values.services.dnsOverTls.type }}
   {{- with .Values.services.dnsOverTls.clusterIP }}
-  clusterIP: {{ . }}
+  clusterIP     : {{ . }}
   {{- end }}
   {{- with .Values.services.dnsOverTls.loadBalancerIP }}
   loadBalancerIP: {{ . }}
   {{- end }}
-  ports:
-  - port: {{ .Values.services.dnsOverTls.port }}
+  ports         :
+    - port      : {{ .Values.services.dnsOverTls.port }}
     {{- if and (or (eq .Values.services.dnsOverTls.type "NodePort") (eq .Values.services.dnsOverTls.type "LoadBalancer")) .Values.services.dnsOverTls.nodePort }}
-    nodePort: {{ .Values.services.dnsOverTls.nodePort }}
+      nodePort  : {{ .Values.services.dnsOverTls.nodePort }}
     {{- end }}
-    targetPort: dns-over-tls
-    protocol: TCP
+      targetPort: dns-over-tls
+      protocol  : TCP
 {{- end }}
 ---
 {{ if .Values.services.dnsOverQuic.enabled -}}
 apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "adguard-home.fullname" . }}-doq
-spec:
-  selector:
+kind      : Service
+metadata  :
+  name       : {{ include "adguard-home.fullname" . }}-doq
+  {{- with .Values.services.dnsOverQuic.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end}}
+spec      :
+  selector      :
     {{- include "adguard-home.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.services.dnsOverQuic.type }}
+  type          : {{ .Values.services.dnsOverQuic.type }}
   {{- with .Values.services.dnsOverQuic.clusterIP }}
-  clusterIP: {{ . }}
+  clusterIP     : {{ . }}
   {{- end }}
   {{- with .Values.services.dnsOverQuic.loadBalancerIP }}
   loadBalancerIP: {{ . }}
   {{- end }}
-  ports:
-  - port: {{ .Values.services.dnsOverQuic.port1.port }}
+  ports         :
+    - port      : {{ .Values.services.dnsOverQuic.port1.port }}
     {{- if and (or (eq .Values.services.dnsOverQuic.type "NodePort") (eq .Values.services.dnsOverQuic.type "LoadBalancer")) .Values.services.dnsOverQuic.port1.nodePort }}
-    nodePort: {{ .Values.services.dnsOverQuic.port1.nodePort }}
+      nodePort  : {{ .Values.services.dnsOverQuic.port1.nodePort }}
     {{- end }}
-    name: dns-over-quic-1
-    targetPort: dns-over-quic-1
-    protocol: UDP
-  - port: {{ .Values.services.dnsOverQuic.port2.port }}
+      name      : dns-over-quic-1
+      targetPort: dns-over-quic-1
+      protocol  : UDP
+    - port      : {{ .Values.services.dnsOverQuic.port2.port }}
     {{- if and (or (eq .Values.services.dnsOverQuic.type "NodePort") (eq .Values.services.dnsOverQuic.type "LoadBalancer")) .Values.services.dnsOverQuic.port2.nodePort }}
-    nodePort: {{ .Values.services.dnsOverQuic.port2.nodePort }}
+      nodePort  : {{ .Values.services.dnsOverQuic.port2.nodePort }}
     {{- end }}
-    name: dns-over-quic-3
-    targetPort: dns-over-quic-3
-    protocol: UDP
+      name      : dns-over-quic-3
+      targetPort: dns-over-quic-3
+      protocol  : UDP
 {{- end }}
 ---
 {{ if .Values.services.dnscrypt.enabled -}}
 apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "adguard-home.fullname" . }}-dnscrypt
-spec:
-  selector:
+kind      : Service
+metadata  :
+  name       : {{ include "adguard-home.fullname" . }}-dnscrypt
+  {{- with .Values.services.dnscrypt.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end}}
+spec      :
+  selector      :
     {{- include "adguard-home.selectorLabels" . | nindent 4 }}
-  type: {{ .Values.services.dnscrypt.type }}
+  type          : {{ .Values.services.dnscrypt.type }}
   {{- with .Values.services.dnscrypt.clusterIP }}
-  clusterIP: {{ . }}
+  clusterIP     : {{ . }}
   {{- end }}
   {{- with .Values.services.dnscrypt.loadBalancerIP }}
   loadBalancerIP: {{ . }}
   {{- end }}
-  ports:
-  - name: dnscrypt-tcp
-    port: {{ .Values.services.dnscrypt.tcp.port }}
+  ports         :
+    - name      : dnscrypt-tcp
+      port      : {{ .Values.services.dnscrypt.tcp.port }}
     {{- if and (or (eq .Values.services.dnscrypt.type "NodePort") (eq .Values.services.dnscrypt.type "LoadBalancer")) .Values.services.dnscrypt.tcp.nodePort }}
-    nodePort: {{ .Values.services.dnscrypt.tcp.nodePort }}
+      nodePort  : {{ .Values.services.dnscrypt.tcp.nodePort }}
     {{- end }}
-    targetPort: dnscrypt
-    protocol: TCP
-  - name: dnscrypt-udp
-    port: {{ .Values.services.dnscrypt.udp.port }}
+      targetPort: dnscrypt
+      protocol  : TCP
+    - name      : dnscrypt-udp
+      port      : {{ .Values.services.dnscrypt.udp.port }}
     {{- if and (or (eq .Values.services.dnscrypt.type "NodePort") (eq .Values.services.dnscrypt.type "LoadBalancer")) .Values.services.dnscrypt.udp.nodePort }}
-    nodePort: {{ .Values.services.dnscrypt.udp.nodePort }}
+      nodePort  : {{ .Values.services.dnscrypt.udp.nodePort }}
     {{- end }}
-    targetPort: dnscrypt-udp
-    protocol: UDP
+      targetPort: dnscrypt-udp
+      protocol  : UDP
 {{- end }}
