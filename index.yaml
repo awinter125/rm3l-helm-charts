@@ -1,0 +1,19 @@
+apiVersion: v1
+entries:
+  adguard-home:
+  - apiVersion: v2
+    appVersion: v0.107.26
+    created: "2023-12-25T15:28:18.144332415Z"
+    description: 'Unofficial Chart for Adguard Home, the network-wide ad and tracking
+      blocker. This Chart also provides automated backups of Adguard Home to services
+      like AWS S3. https://github.com/AdguardTeam/AdGuardHome '
+    digest: 11d54c3fc366cc61e3d17a1acf38cb1f7ca40a8a46f83dec5901606e78f89bd7
+    maintainers:
+    - email: winter.axel@icloud.com
+      name: axel winter
+    name: adguard-home
+    type: application
+    urls:
+    - https://github.com/awinter125/rm3l-helm-charts/releases/download/adguard-home-0.12.2/adguard-home-0.12.2.tgz
+    version: 0.12.2
+generated: "2023-12-25T15:28:18.144401955Z"
