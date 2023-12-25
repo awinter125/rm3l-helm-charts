@@ -2,7 +2,7 @@ name: Release Charts
 on  :
   push             :
     branches:
-      - master
+      - main
     paths   :
       - 'charts/**'
   workflow_dispatch:
